@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CivicFix — Smarter Civic Complaints</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="brand-mark">✦</span><span>Civic<span>Fix</span></span></div>
+  <nav>
+    <button class="nav-btn active" data-page="home">Home</button>
+    <button class="nav-btn" data-page="report">Report Issue</button>
+    <button class="nav-btn" data-page="track">Track Reports</button>
+    <button class="nav-btn" data-page="admin">Admin Dashboard</button>
+  </nav>
+</header>
+
+<main>
+<section id="home" class="page active">
+  <div class="hero">
+    <div class="hero-copy">
+      <div class="eyebrow">AI-ASSISTED CIVIC ACCOUNTABILITY</div>
+      <h1>Report it.<br><em>Fix it.</em><br>Track it.</h1>
+      <p>CivicFix turns scattered citizen complaints into organized, explainable actions for local administrators.</p>
+      <div class="hero-actions">
+        <button class="primary" data-go="report">Report a problem →</button>
+        <button class="secondary" data-go="admin">View live dashboard</button>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="mini-head"><span>AI TRIAGE</span><span class="live-dot">● LIVE</span></div>
+      <div class="ticket">
+        <div class="ticket-icon">💡</div>
+        <div><b>Streetlight not working</b><small>Near Gate 2 · 3 reports found</small></div>
+        <span class="pill red">HIGH</span>
+      </div>
+      <div class="score"><span>Priority score</span><strong>86/100</strong></div>
+      <div class="meter"><i style="width:86%"></i></div>
+      <p class="reason">Why high? 3 duplicate reports + 3 days unresolved + public-safety impact.</p>
+      <div class="mini-foot">✓ Explainable &nbsp; ✓ Duplicate-aware &nbsp; ✓ SLA tracked</div>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div><b id="statTotal">24</b><span>Reports received</span></div>
+    <div><b>07</b><span>High priority</span></div>
+    <div><b>14</b><span>Resolved</span></div>
+    <div><b>92%</b><span>SLA compliance</span></div>
+  </div>
+
+  <div class="section-title"><span>HOW IT WORKS</span><h2>From complaint to accountable action.</h2></div>
+  <div class="steps">
+    <div class="step"><strong>01</strong><h3>Citizen reports</h3><p>Submit text, location and optional photo in seconds.</p></div>
+    <div class="step"><strong>02</strong><h3>AI triages</h3><p>Classifies the issue, spots likely duplicates and scores priority.</p></div>
+    <div class="step"><strong>03</strong><h3>Admin acts</h3><p>Teams see a clear queue, SLA timer and reason behind each priority.</p></div>
+  </div>
+</section>
+
+<section id="report" class="page">
+  <div class="page-heading"><div><div class="eyebrow">CITIZEN PORTAL</div><h2>Report a civic issue</h2><p>Tell us what is wrong. CivicFix will organize the rest.</p></div><div class="trust">🔒 No silent rejection · Explainable AI</div></div>
+  <div class="form-layout">
+    <form id="reportForm" class="card form-card">
+      <label>Your complaint<textarea id="description" required placeholder="Example: Large pothole near the main college gate for the last 4 days..."></textarea></label>
+      <div class="two-col">
+        <label>Location<input id="location" required placeholder="e.g. Gate 2, Wagholi"></label>
+        <label>Days unresolved<input id="days" type="number" min="0" value="1"></label>
+      </div>
+      <label>Optional image<input id="photo" type="file" accept="image/*"></label>
+      <button class="primary full" type="submit">Analyze & submit complaint ✦</button>
+      <p class="form-note">Demo mode: AI analysis runs locally so the prototype works without an API key.</p>
+    </form>
+    <div id="analysisPanel" class="card analysis-card">
+      <div class="empty-analysis"><span>✦</span><h3>AI analysis appears here</h3><p>Submit a complaint to see category, duplicate detection and an explainable priority score.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="track" class="page">
+  <div class="page-heading"><div><div class="eyebrow">CITIZEN TRACKING</div><h2>Your reports</h2><p>Follow what happens after you report.</p></div></div>
+  <div id="trackList" class="report-list"></div>
+</section>
+
+<section id="admin" class="page">
+  <div class="page-heading"><div><div class="eyebrow">MUNICIPAL CONTROL CENTER</div><h2>Admin dashboard</h2><p>One queue. Clear priorities. Visible accountability.</p></div><button class="secondary" id="resetDemo">Reset demo data</button></div>
+  <div class="dashboard-stats">
+    <div class="dash-stat"><span>Total reports</span><b id="dashTotal">24</b><small>↑ 12% this week</small></div>
+    <div class="dash-stat danger"><span>High priority</span><b id="dashHigh">7</b><small>Needs attention</small></div>
+    <div class="dash-stat"><span>In progress</span><b>5</b><small>Across 4 categories</small></div>
+    <div class="dash-stat"><span>SLA compliance</span><b>92%</b><small>Above target</small></div>
+  </div>
+  <div class="admin-grid">
+    <div class="card queue">
+      <div class="card-title"><h3>Priority queue</h3><span class="filter">All issues ▾</span></div>
+      <div id="queueList"></div>
+    </div>
+    <div class="card map-card">
+      <div class="card-title"><h3>Issue map</h3><span class="map-legend">● High &nbsp; ● Medium &nbsp; ● Low</span></div>
+      <div class="fake-map">
+        <div class="road r1"></div><div class="road r2"></div><div class="road r3"></div><div class="road r4"></div>
+        <div class="road v1"></div><div class="road v2"></div><div class="road v3"></div>
+        <span class="pin p1">●</span><span class="pin p2">●</span><span class="pin p3">●</span><span class="pin p4">●</span><span class="pin p5">●</span>
+        <div class="map-label">Wagholi Civic Area</div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><span>© 2026 CivicFix</span><span>Built for civic accountability · Prototype</span></footer>
+<script src="app.js"></script>
+</body>
+</html>
