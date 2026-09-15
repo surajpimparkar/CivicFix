@@ -1,114 +1,104 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CivicFix — Smarter Civic Complaints</title>
-<link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CivicFix — Citizen Grievance & Accountability</title>
+  <meta name="description" content="CivicFix turns citizen complaints into verified, prioritized and trackable civic issues." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIINfQ3R8k9Jk1h9Z5K6J2sQ5g4mQ5n8qQ=" crossorigin="" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-<header class="topbar">
-  <div class="brand"><span class="brand-mark">✦</span><span>Civic<span>Fix</span></span></div>
-  <nav>
-    <button class="nav-btn active" data-page="home">Home</button>
-    <button class="nav-btn" data-page="report">Report Issue</button>
-    <button class="nav-btn" data-page="track">Track Reports</button>
-    <button class="nav-btn" data-page="admin">Admin Dashboard</button>
-  </nav>
-</header>
+  <div id="toast" class="toast"></div>
+  <header class="topbar">
+    <a class="brand" href="#home" data-page="home"><span class="brand-mark">CF</span><span>Civic<span>Fix</span></span></a>
+    <nav id="nav" class="nav">
+      <a href="#home" data-page="home">Home</a>
+      <a href="#map" data-page="map">Live Map</a>
+      <a href="#report" data-page="report">Report Issue</a>
+      <a href="#complaints" data-page="complaints">My Complaints</a>
+      <a href="#admin" data-page="admin" class="admin-link hidden">Admin</a>
+    </nav>
+    <div class="nav-actions">
+      <span id="modeBadge" class="mode-badge">Demo mode</span>
+      <button id="loginBtn" class="btn ghost">Login</button>
+      <button id="signupBtn" class="btn primary">Create account</button>
+      <button id="userBtn" class="user-chip hidden"></button>
+    </div>
+    <button id="menuBtn" class="icon-btn mobile-only">☰</button>
+  </header>
 
-<main>
-<section id="home" class="page active">
-  <div class="hero">
-    <div class="hero-copy">
-      <div class="eyebrow">AI-ASSISTED CIVIC ACCOUNTABILITY</div>
-      <h1>Report it.<br><em>Fix it.</em><br>Track it.</h1>
-      <p>CivicFix turns scattered citizen complaints into organized, explainable actions for local administrators.</p>
-      <div class="hero-actions">
-        <button class="primary" data-go="report">Report a problem →</button>
-        <button class="secondary" data-go="admin">View live dashboard</button>
+  <main>
+    <section id="page-home" class="page active">
+      <div class="hero container">
+        <div class="hero-copy">
+          <div class="eyebrow">SMARTER CIVIC ACCOUNTABILITY</div>
+          <h1>Report it. <span>Prioritize it.</span> Fix it.</h1>
+          <p>One trusted place for citizens and municipal teams to turn scattered complaints into verified, deduplicated and accountable civic work.</p>
+          <div class="hero-actions">
+            <button class="btn primary xl" data-page="report">Report an issue →</button>
+            <button class="btn secondary xl" data-page="map">Explore live map</button>
+          </div>
+          <div class="trust-row"><span>✓ Photo evidence</span><span>✓ Location proof</span><span>✓ Explainable AI</span><span>✓ SLA tracking</span></div>
+        </div>
+        <div class="hero-panel">
+          <div class="panel-head"><span>AI triage preview</span><span class="live-dot">● Live</span></div>
+          <div class="triage-card"><div class="mini-icon danger">!</div><div><b>Large pothole near college gate</b><small>8 supporting reports · 4 days</small></div><strong>94</strong></div>
+          <div class="reason"><b>Why high priority?</b><span>Safety risk + repeated reports + persistent issue + high-footfall location.</span></div>
+          <div class="progress"><span style="width:94%"></span></div>
+          <div class="panel-foot"><span>Recommended: <b>Urgent</b></span><span>Admin verification required</span></div>
+        </div>
       </div>
-    </div>
-    <div class="hero-card">
-      <div class="mini-head"><span>AI TRIAGE</span><span class="live-dot">● LIVE</span></div>
-      <div class="ticket">
-        <div class="ticket-icon">💡</div>
-        <div><b>Streetlight not working</b><small>Near Gate 2 · 3 reports found</small></div>
-        <span class="pill red">HIGH</span>
+      <div class="container stats-grid" id="homeStats"></div>
+      <div class="container section"><div class="section-title"><div><div class="eyebrow">HOW IT WORKS</div><h2>From complaint to accountable action</h2></div></div><div class="steps"><div class="step"><b>01</b><h3>Capture evidence</h3><p>Photo, description and map location create a useful civic record.</p></div><div class="step"><b>02</b><h3>AI triage</h3><p>Category, severity and transparent priority factors are generated.</p></div><div class="step"><b>03</b><h3>Merge duplicates</h3><p>Multiple citizens can support the same underlying civic issue.</p></div><div class="step"><b>04</b><h3>Resolve & verify</h3><p>Admins track SLA progress and citizens can confirm or reopen.</p></div></div></div>
+      <div class="container section callout"><div><div class="eyebrow">BUILT FOR PS-18</div><h2>Less noise. Faster decisions. More accountability.</h2><p>CivicFix keeps the human administrator in control while using AI where it actually helps: triage, extraction, similarity and explanation.</p></div><button class="btn primary" data-page="report">Try the workflow</button></div>
+    </section>
+
+    <section id="page-map" class="page container section-page">
+      <div class="page-heading"><div><div class="eyebrow">PUBLIC VIEW</div><h1>Civic issue map</h1><p>See issue hotspots without exposing private citizen information.</p></div><div class="legend"><span><i class="dot high"></i>High</span><span><i class="dot med"></i>Medium</span><span><i class="dot low"></i>Low</span></div></div>
+      <div class="map-shell"><div id="publicMap"></div><aside class="map-side"><h3>Open civic issues</h3><div id="mapList"></div></aside></div>
+    </section>
+
+    <section id="page-report" class="page container section-page">
+      <div class="page-heading"><div><div class="eyebrow">CITIZEN PORTAL</div><h1>Report an issue</h1><p>Give the municipal team enough evidence to act without asking you twice.</p></div><div class="ticket-tip">🔒 Your private account details are never shown on the public map.</div></div>
+      <div class="report-grid">
+        <form id="reportForm" class="card form-card">
+          <div class="form-row two"><label>Issue title<input id="title" required placeholder="e.g. Large pothole near Gate 2" /></label><label>Category<select id="category"><option>Auto-detect</option><option>Pothole</option><option>Garbage</option><option>Streetlight</option><option>Drainage</option><option>Water Supply</option><option>Road / Footpath</option></select></label></div>
+          <label>Description<textarea id="description" required rows="6" placeholder="What happened? How long has it existed? Who is affected?"></textarea></label>
+          <div class="form-row two"><label>Location<input id="address" placeholder="Landmark / area name" /></label><button type="button" id="locateBtn" class="btn secondary location-btn">⌖ Use my location</button></div>
+          <div class="photo-drop"><input id="photo" type="file" accept="image/*" /><div id="photoPreview" class="photo-preview"><span>📷</span><b>Add photo evidence</b><small>JPG/PNG · recommended under 5 MB</small></div></div>
+          <div class="consent"><input id="consent" type="checkbox" required /><span>I confirm this report is genuine and the information is accurate to the best of my knowledge.</span></div>
+          <button class="btn primary xl full" type="submit">Analyze & submit complaint</button>
+          <small class="form-note">AI suggestions are advisory. A municipal administrator verifies the issue before final action.</small>
+        </form>
+        <div class="right-stack"><div class="card ai-card"><div class="card-head"><div><span class="eyebrow">AI TRIAGE</span><h3>Transparent priority preview</h3></div><span id="aiState" class="pill">Waiting</span></div><div id="aiResult" class="ai-empty">Describe the issue and click <b>Analyze</b> below.</div><button id="analyzeBtn" class="btn secondary full">Analyze with CivicFix AI</button></div><div class="card map-card"><div class="card-head"><div><span class="eyebrow">LOCATION</span><h3>Pin the exact spot</h3></div><span id="coords" class="muted">Not selected</span></div><div id="reportMap"></div><p class="map-help">Click the map or use your device location. For the hackathon demo, the selected coordinates are saved with the complaint.</p></div></div>
       </div>
-      <div class="score"><span>Priority score</span><strong>86/100</strong></div>
-      <div class="meter"><i style="width:86%"></i></div>
-      <p class="reason">Why high? 3 duplicate reports + 3 days unresolved + public-safety impact.</p>
-      <div class="mini-foot">✓ Explainable &nbsp; ✓ Duplicate-aware &nbsp; ✓ SLA tracked</div>
-    </div>
-  </div>
+    </section>
 
-  <div class="stats-row">
-    <div><b id="statTotal">24</b><span>Reports received</span></div>
-    <div><b>07</b><span>High priority</span></div>
-    <div><b>14</b><span>Resolved</span></div>
-    <div><b>92%</b><span>SLA compliance</span></div>
-  </div>
+    <section id="page-complaints" class="page container section-page">
+      <div class="page-heading"><div><div class="eyebrow">CITIZEN DASHBOARD</div><h1>My complaints</h1><p>Track every report, see admin updates and confirm the resolution.</p></div><button class="btn primary" data-page="report">+ New complaint</button></div>
+      <div id="myComplaints" class="complaints-grid"></div>
+    </section>
 
-  <div class="section-title"><span>HOW IT WORKS</span><h2>From complaint to accountable action.</h2></div>
-  <div class="steps">
-    <div class="step"><strong>01</strong><h3>Citizen reports</h3><p>Submit text, location and optional photo in seconds.</p></div>
-    <div class="step"><strong>02</strong><h3>AI triages</h3><p>Classifies the issue, spots likely duplicates and scores priority.</p></div>
-    <div class="step"><strong>03</strong><h3>Admin acts</h3><p>Teams see a clear queue, SLA timer and reason behind each priority.</p></div>
-  </div>
-</section>
+    <section id="page-admin" class="page container section-page">
+      <div class="page-heading"><div><div class="eyebrow">CONTROL CENTER</div><h1>Admin command center</h1><p>Verify, prioritize, assign and close civic issues with an auditable status trail.</p></div><div class="admin-actions"><button class="btn secondary" id="refreshAdmin">↻ Refresh</button></div></div>
+      <div id="adminStats" class="stats-grid"></div>
+      <div class="admin-layout"><div class="card queue-card"><div class="card-head"><div><h3>Priority queue</h3><small>Highest-impact issues first</small></div><select id="statusFilter"><option>All statuses</option><option>New</option><option>Verified</option><option>Assigned</option><option>In Progress</option><option>Resolved</option><option>Reopened</option></select></div><div id="adminQueue"></div></div><div class="card admin-map-card"><div class="card-head"><div><h3>Hotspot map</h3><small>Public-safe issue locations</small></div></div><div id="adminMap"></div></div></div>
+    </section>
+  </main>
 
-<section id="report" class="page">
-  <div class="page-heading"><div><div class="eyebrow">CITIZEN PORTAL</div><h2>Report a civic issue</h2><p>Tell us what is wrong. CivicFix will organize the rest.</p></div><div class="trust">🔒 No silent rejection · Explainable AI</div></div>
-  <div class="form-layout">
-    <form id="reportForm" class="card form-card">
-      <label>Your complaint<textarea id="description" required placeholder="Example: Large pothole near the main college gate for the last 4 days..."></textarea></label>
-      <div class="two-col">
-        <label>Location<input id="location" required placeholder="e.g. Gate 2, Wagholi"></label>
-        <label>Days unresolved<input id="days" type="number" min="0" value="1"></label>
-      </div>
-      <label>Optional image<input id="photo" type="file" accept="image/*"></label>
-      <button class="primary full" type="submit">Analyze & submit complaint ✦</button>
-      <p class="form-note">Demo mode: AI analysis runs locally so the prototype works without an API key.</p>
-    </form>
-    <div id="analysisPanel" class="card analysis-card">
-      <div class="empty-analysis"><span>✦</span><h3>AI analysis appears here</h3><p>Submit a complaint to see category, duplicate detection and an explainable priority score.</p></div>
-    </div>
-  </div>
-</section>
+  <footer><div class="container footer-inner"><div><b>CF CivicFix</b><span> · Intelligent grievance triage & accountability</span></div><div>PS-18 · Safe & Smart Communities · SDG 11 / 16</div></div></footer>
 
-<section id="track" class="page">
-  <div class="page-heading"><div><div class="eyebrow">CITIZEN TRACKING</div><h2>Your reports</h2><p>Follow what happens after you report.</p></div></div>
-  <div id="trackList" class="report-list"></div>
-</section>
+  <div id="authModal" class="modal hidden"><div class="modal-backdrop"></div><div class="modal-card"><button class="modal-close" id="closeAuth">×</button><div class="eyebrow" id="authEyebrow">WELCOME BACK</div><h2 id="authTitle">Login to CivicFix</h2><p id="authSubtitle">Track your complaints and receive status updates.</p><form id="authForm"><div id="nameField" class="hidden"><label>Full name<input id="authName" placeholder="Your name" /></label></div><label>Email<input id="authEmail" type="email" required placeholder="you@example.com" /></label><label>Password<input id="authPassword" type="password" required minlength="6" placeholder="Minimum 6 characters" /></label><button class="btn primary xl full" id="authSubmit">Login</button></form><div class="auth-switch"><span id="switchText">New here?</span><button id="switchAuth" class="link-btn" type="button">Create an account</button></div><div class="demo-admin">Hackathon demo: <b>admin@civicfix.local</b> with any 6+ character password opens the admin view in demo mode.</div></div></div>
 
-<section id="admin" class="page">
-  <div class="page-heading"><div><div class="eyebrow">MUNICIPAL CONTROL CENTER</div><h2>Admin dashboard</h2><p>One queue. Clear priorities. Visible accountability.</p></div><button class="secondary" id="resetDemo">Reset demo data</button></div>
-  <div class="dashboard-stats">
-    <div class="dash-stat"><span>Total reports</span><b id="dashTotal">24</b><small>↑ 12% this week</small></div>
-    <div class="dash-stat danger"><span>High priority</span><b id="dashHigh">7</b><small>Needs attention</small></div>
-    <div class="dash-stat"><span>In progress</span><b>5</b><small>Across 4 categories</small></div>
-    <div class="dash-stat"><span>SLA compliance</span><b>92%</b><small>Above target</small></div>
-  </div>
-  <div class="admin-grid">
-    <div class="card queue">
-      <div class="card-title"><h3>Priority queue</h3><span class="filter">All issues ▾</span></div>
-      <div id="queueList"></div>
-    </div>
-    <div class="card map-card">
-      <div class="card-title"><h3>Issue map</h3><span class="map-legend">● High &nbsp; ● Medium &nbsp; ● Low</span></div>
-      <div class="fake-map">
-        <div class="road r1"></div><div class="road r2"></div><div class="road r3"></div><div class="road r4"></div>
-        <div class="road v1"></div><div class="road v2"></div><div class="road v3"></div>
-        <span class="pin p1">●</span><span class="pin p2">●</span><span class="pin p3">●</span><span class="pin p4">●</span><span class="pin p5">●</span>
-        <div class="map-label">Wagholi Civic Area</div>
-      </div>
-    </div>
-  </div>
-</section>
-</main>
+  <div id="detailModal" class="modal hidden"><div class="modal-backdrop"></div><div class="modal-card detail-modal"><button class="modal-close" id="closeDetail">×</button><div id="detailBody"></div></div></div>
 
-<footer><span>© 2026 CivicFix</span><span>Built for civic accountability · Prototype</span></footer>
-<script src="app.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
