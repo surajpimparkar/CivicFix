@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "title": "Pothole on Main Road",
+    "description": "Large pothole causing problems for vehicles.",
+    "category": "Road",
+    "location": "Main Road",
+    "reportedBy": "Citizen",
+    "status": "Reported",
+    "votes": 9,
+    "createdAt": "2026-09-16T10:00:00.000Z"
+  },
+  {
+    "id": 2,
+    "title": "Street Light Not Working",
+    "description": "Street light has not been working for several days.",
+    "category": "Street Light",
+    "location": "Market Area",
+    "reportedBy": "Citizen",
+    "status": "In Progress",
+    "votes": 3,
+    "createdAt": "2026-09-16T11:00:00.000Z"
+  },
+  {
+    "id": 3,
+    "title": "Garbage Collection Needed",
+    "description": "Garbage has accumulated near the public park.",
+    "category": "Garbage",
+    "location": "Central Park",
+    "reportedBy": "Citizen",
+    "status": "Resolved",
+    "votes": 8,
+    "createdAt": "2026-09-16T12:00:00.000Z"
+  },
+  {
+    "id": 4,
+    "title": "Pathole on nagar road, kesnand phata wagholi",
+    "description": "URH PGrhgPTRBjlsnbRU",
+    "category": "Road",
+    "location": "Batjeb",
+    "reportedBy": "cfgba",
+    "status": "Resolved",
+    "votes": 0,
+    "createdAt": "2026-09-16T17:42:00.233Z"
+  }
+]
